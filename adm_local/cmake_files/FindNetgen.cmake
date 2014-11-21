@@ -41,12 +41,12 @@ IF(NETGEN_ROOT_DIR)
  LIST(APPEND CMAKE_PREFIX_PATH "${NETGEN_ROOT_DIR}")
 ENDIF(NETGEN_ROOT_DIR)
 
-FIND_PATH(_netgen_base_inc_dir nglib.h)
-SET(NETGEN_INCLUDE_DIRS ${_netgen_base_inc_dir})
-FIND_PATH(_netgen_add_inc_dir occgeom.hpp HINTS ${_netgen_base_inc_dir} PATH_SUFFIXES share/netgen/include)
-LIST(APPEND NETGEN_INCLUDE_DIRS ${_netgen_add_inc_dir})
-LIST(REMOVE_DUPLICATES NETGEN_INCLUDE_DIRS)
-
+FIND_PATH(_netgen_base_inc_dir nglib.h HINTS /usr/include/netgen-mesher)
+SET(NETGEN_INCLUDE_DIRS ${_netgen_base_inc_dir}
+       ${_netgen_base_inc_dir}/private/occ
+       ${_netgen_base_inc_dir}/private/meshing
+       ${_netgen_base_inc_dir}/private/include)
+ADD_DEFINITIONS(-DNETGEN_V5)
 FIND_LIBRARY(NETGEN_nglib NAMES nglib)
 IF(WIN32)
   FIND_LIBRARY(NETGEN_csg NAMES csg)
